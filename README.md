@@ -19,7 +19,7 @@ gamutview(rgb, rgb, 'srgb', 'facecolor', 'none');
 
 <br>
 
-> The animation was created by [animated-gif creator](https://www.mathworks.com/matlabcentral/fileexchange/28766-animated-gif-creator)
+> The animation was created by [animated-gif creator](https://www.mathworks.com/matlabcentral/fileexchange/28766-animated-gif-creator).
 
 
 ## Gamuts comparison for sRGB (solid) and Adobe RGB (black grid) in CIELUV color space
@@ -44,4 +44,4 @@ Please see [gamutview_demo.m](gamutview_demo.m) for more usage guides.
 
 Copyright 2019 Qiu Jueqin
 
-Licensed under [GPL-3.0](http://www.gnu.org/licenses/).
+Licensed under [MIT](http://opensource.org/licenses/MIT).
