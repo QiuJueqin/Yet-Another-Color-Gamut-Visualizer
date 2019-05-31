@@ -1,42 +1,49 @@
-function centroid = centroidn(vertices)
-% modified from geom3d toolbox
-% https://www.mathworks.com/matlabcentral/fileexchange/24484-geom3d
+% This function returns the x,y,z coordinates of centroid
+% of surface triangulated polyhedron. 
 %
-% CENTROIDN Compute the centroid of a 3D convex polyhedron
-%
-%   CENTRO = CENTROIDN(V)
-%   Computes the centroid (center of mass) of the polyhedron defined by
-%   vertices V.
-%   The polyhedron is assumed to be convex.
+% INPUT:
+%     vertex: Point Cloud of Shape
+%         vertex(:,1) : x coordinates
+%         vertex(:,2) : y coordinates
+%         vertex(:,3) : z coordinates
+%     faces: Information of which vertex belongs to which triangle
+% OUTPUT:
+%     centroid: x,y,z cordinate of centroid
+%          centroid(1,1): x coordinate
+%          centroid(1,2): y coordinate
+%          centroid(1,3): z coordinate
+% 
+% AUTHOR:
+%   Isfandiyar RASHIDZADE
+%   Email : irashidzade@gmail.com
+%   Web Site: isfzade.info
+%   Year: 2016
 
-% compute set of elementary tetrahedra
-DT = delaunayTriangulation(vertices);
-T = DT.ConnectivityList;
 
-% number of tetrahedra
-nT  = size(T, 1);
-
-% initialize result
-centroid = zeros(1, 3);
-vt = 0;
-
-% Compute the centroid and the volume of each tetrahedron
-for i = 1:nT
-    % coordinates of tetrahedron vertices
-    tetra = vertices(T(i, :), :);
+function centroid = centroidn(vertex, faces)
     
-    % centroid is the average of vertices. 
-    centi = mean(tetra);
+    %finding the area of closed polyhedron
+        vector1 = vertex(faces(:, 2), :) - vertex(faces(:, 1), :);
+        vector2 = vertex(faces(:, 3), :) - vertex(faces(:, 1), :);
+        
+        triangAreasTmp =0.5*cross(vector1,vector2);
+        triangAreas(:,1) = (triangAreasTmp(:,1).^2+triangAreasTmp(:,2).^2 ...
+                    +triangAreasTmp(:,3).^2).^(1/2); %area of each triangle
+        
+        totArea = sum(triangAreas); %total area
     
-    % compute volume of tetrahedron
-    vol = det(tetra(1:3,:) - tetra([4 4 4],:)) / 6;
+    point1 = vertex(faces(:, 1), :);
+    point2 = vertex(faces(:, 2), :);
+    point3 = vertex(faces(:, 3), :);
     
-    % add weighted centroid of current tetraedron
-    centroid = centroid + centi * vol;
+    centroidTriangles = (1/3) .* (point1 + point2 + point3); %cent. of each triangle
     
-    % compute the sum of tetraedra volumes
-    vt = vt + vol;
+    mg(:,1) = triangAreas(:,1) .*  centroidTriangles(:,1);
+    mg(:,2) = triangAreas(:,1) .*  centroidTriangles(:,2);
+    mg(:,3) = triangAreas(:,1) .*  centroidTriangles(:,3);
+    mg2 = [mg(:,1) mg(:,2) mg(:,3)];
+    
+    centroid = sum(mg2)./totArea;
+    
+    
 end
-
-% compute by sum of tetrahedron volumes
-centroid = centroid / vt;

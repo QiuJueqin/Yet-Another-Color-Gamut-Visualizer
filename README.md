@@ -37,7 +37,7 @@ gamutview(rgb, rgb, 'argb2luv', 'facecolor', 'none', 'edgecolor', 'k', 'edgealph
 
 <br>
 
-Please see [gamutview_demo.m](gamutview_demo.m) for more usage guides.
+Please see [demo/gamutview_demo.m](demo/gamutview_demo.m) for more usage guides.
 
 
 # License
