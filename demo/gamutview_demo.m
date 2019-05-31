@@ -30,12 +30,12 @@ fprintf('%s\n', repmat('=', 1, 36));
 % =========================================================================
 clear; close all; clc;
 
-N = 8;
+N = 16;
 [r, g, b] = meshgrid(linspace(0, 1, N));
 rgb = [r(:), g(:), b(:)];
 
-[vol_srgb, ~, hax] = gamutview(rgb, [], 'srgb2luv', 'edgecolor', 'none');
-vol_argb = gamutview(rgb, [], 'adobe_rgb2luv', 'facecolor', 'none', 'edgealpha', 0.8, 'parent', hax);
+[vol_srgb, ~, hax] = gamutview(rgb, rgb, 'srgb2luv', 'edgecolor', 'none');
+vol_argb = gamutview(rgb, rgb, 'argb2luv', 'facecolor', 'none', 'edgecolor', 'k', 'edgealpha', .25, 'parent', hax);
 
 view(-20, 20);
 
@@ -56,7 +56,7 @@ load('oled_display_measurements.mat');
                                'whitepoint', xyz_whitepoint,...
                                'edgecolor', 'k', 'edgealpha', .2);
 
-N = 16;
+N = 8;
 [r, g, b] = meshgrid(linspace(0, 1, N));
 rgb = [r(:), g(:), b(:)];
 

@@ -157,7 +157,7 @@ elseif isempty(color_spaces{2})
     input_color_space = color_spaces{1};
     output_color_space = 'lab';
 else
-	input_color_space = color_spaces{1};
+    input_color_space = color_spaces{1};
     output_color_space = color_spaces{2};
 end
 input_color_space = alias_(input_color_space);
@@ -178,7 +178,7 @@ end
 
 function set_axes(hax, color_space)
 switch lower(color_space)
-	case {'srgb', 'adobe-rgb-1998'}
+    case {'srgb', 'adobe-rgb-1998'}
         axes_labels = {'$R$', '$G$', '$B$'};
     case 'xyz'
         axes_labels = {'$X$', '$Y$', '$Z$'};
@@ -188,11 +188,11 @@ switch lower(color_space)
         axes_labels = {'$Cb$', '$Cr$', '$Y$'};
     case 'luv'
         axes_labels = {'$u^\ast$', '$v^\ast$', '$L^\ast$'};
-	case 'luvp'
+    case 'luvp'
         axes_labels = {'$u^\prime$', '$v^\prime$', '$L$'};
-	case 'hsv'
+    case 'hsv'
         axes_labels = {'saturation', 'saturation', 'value'};
-	case 'hsl'
+    case 'hsl'
         axes_labels = {'saturation', 'saturation', 'lightness'};
 end
 xlabel(hax, axes_labels{1}, 'interpreter', 'latex', 'fontsize', 16);
