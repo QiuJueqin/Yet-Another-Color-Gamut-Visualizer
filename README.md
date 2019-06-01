@@ -1,6 +1,6 @@
 # Descriptions
 
-This tool helps to visualizes color volume by constructing a 3D gamut(s) given point cloud of color values. Please see [gamutview.m](gamutview.m) for more detailed descriptions.
+This tool helps to visualize color volume by constructing a 3D gamut given point cloud of color values. Please see [gamutview.m](gamutview.m) for more detailed descriptions.
 
 
 # Examples

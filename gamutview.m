@@ -31,9 +31,9 @@ function [vol, hpatch, hax] = gamutview(colors, drive_values, type, varargin)
 % mode.
 %
 % GAMUTVIEW(___, 'whitepoint', WP) uses the user-specified white point to
-% transform color values between two color space. WP can be a 1-by-3 XYZ
+% transform color values between two color spaces. WP can be a 1-by-3 XYZ
 % vector of the light source or a string of a standard illuminant, e.g.,
-% 'd65', 'd50', 'a', etc. Use 'doc whitepoint' to see more usage.
+% 'd65', 'd50', 'a', etc. Use 'doc whitepoint' to see more usages.
 %
 % GAMUTVIEW(___, Name, Value) allows you to customize the appearance of the
 % color gamut. All properties for PATCH object are supported, e.g.,
@@ -70,18 +70,24 @@ if ~strcmpi(inspace, outspace)
     colors = transform_color(colors, inspace, outspace, white_point);
 end
 
+nan_idx = any(isnan(colors), 2) | any(isinf(colors), 2);
+colors = colors(~nan_idx, :);
+
 [~, vol] = convhull(colors);
 
 if isempty(drive_values) % mode 1: no drive values are given
     drive_values = transform_color(colors, outspace, inspace, white_point);
+    
     % keep only convex vertices
     k = unique(convhull_robust(drive_values));
     drive_values = drive_values(k, :);
     gamut_vertices = colors(k, :);
     gamut_facets = convhull_robust(drive_values);
 else % mode 2: with drive values provided
+    drive_values = drive_values(~nan_idx, :);
     assert(isequal(size(drive_values), size(colors)));
     assert(size(drive_values, 2) == 3);
+    
     % remove duplicates in the drive values
     [~, dup_idx] = unique(drive_values, 'row');
     drive_values = drive_values(dup_idx, :);
@@ -91,6 +97,7 @@ else % mode 2: with drive values provided
     v = [min(drive_values, [], 1), max(drive_values, [], 1)];
     gamut_vertices = [];
     gamut_facets = [];
+    
     % 6 surfaces for a gamut polyhedron
     for s = 1:6 
         vertices_indices = abs(drive_values(:, ch(s)) - v(s)) <= EPSILON;
